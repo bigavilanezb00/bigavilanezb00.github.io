@@ -1,0 +1,140 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Tutorial instalación OwnCloud</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="owncloud-tutorial"
+                  title="Tutorial instalación OwnCloud"
+                  environment="web"
+                  feedback-link="https://github.com/googlecodelabs/your-first-pwapp/issues">
+    
+      <google-codelab-step label="Introducción" duration="1">
+        <p>OwnCloud és una aplicació de programari lliure del tipus Servei d&#39;allotjament d&#39;arxius, que permet l&#39;emmagatzematge en línia i aplicacions en línia. ownCloud pot ser instal·lat dins d&#39;un servidor que disposi d&#39;una versió recent de PHP i suport de SQLite, MySQL o PostgreSQL. </p>
+<p><a href="https://owncloud.org" target="_blank"><paper-button class="colored" raised>Visita el sitio owncloud.org</paper-button></a></p>
+<p class="image-container"><img style="width: 624.50px" src="img/ee956d99b9fa11f2.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Crear un contenedor" duration="2">
+        <p>Utilitza aquesta comanda per crear un contenidor. El que esta després de launch és la versió que vols crear, i al final es el nom que vols crear.</p>
+<pre><code>lxc launch ubuntu:18.04 myweb</code></pre>
+<aside class="special"><p>Comprueba que se ha creado el contenedor con el comando:</p>
+<p><code>lxc list</code></p>
+<p>Debe aparecer el Nombre del contenedor <code>myweb</code></p>
+<p class="image-container"><img style="width: 587.00px" src="img/51ee566a6c7a67a1.png"></p>
+</aside>
+<p>Utilitza aquest command per executar, el bash et permet escriure commandes.</p>
+<pre><code>lxc exec myweb bash</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Instal·lar Apache" duration="10">
+        <p>És un dels servidors web més populars en el món. Es troba ben documentat i ha estat utilitzat en bona part de la història del web, aconsegueix èxits per a ser escollit com el servidor més recomenat de pàgines web.</p>
+<p>Abans d&#39;instal·lar Apache, tenim que actualitzar les llistes de programes d&#39;Ubuntu.</p>
+<pre><code>sudo apt-get update
+sudo apt install apache2</code></pre>
+<aside class="special"><p><strong>Apt</strong> t&#39;informara quins paquets s&#39;instal·len i quant espai en disc serà requerit. </p>
+</aside>
+<p>Pressionem <strong>Y</strong> i després <strong>Enter</strong> per continuar, així, la instal·lació es realitzarà.</p>
+<h2 is-upgraded>Configuració tallafocs per permitir el tràfic web</h2>
+<aside class="special"><p>Si has seguit les instruccions de configuració inicial del servidor i has habilitat el tallafocs<strong> UFW</strong>, ara podràs assegurar-te que la teva tallafocs permet el tràfic <strong>HTTP i HTTPS</strong>.</p>
+</aside>
+<p>Per fer-ho, verifica que el <strong>UFW </strong>té un perfil d&#39;aplicació per a Apache amb la comanda següent:</p>
+<pre><code>sudo ufw app list</code></pre>
+<p>Et mostrarà la següent informació</p>
+<p class="image-container"><img style="width: 222.00px" src="img/2cb28a28968b456.png"></p>
+<p>Si sol·licites la informació del perfil Apache Full, s&#39;hauria de mostrar que el trànsit es troba habilitat per als <strong>ports 80 i 443</strong>:</p>
+<pre><code>sudo ufw app info &#34;Apache Full&#34;</code></pre>
+<p>Et mostrarà la següent informació</p>
+<p class="image-container"><img style="width: 587.00px" src="img/42a8419575f9d3c8.png"></p>
+<aside class="special"><p>El puerto <code>80</code> es el del HTTP</p>
+<p>El puerto <code>443</code> es el del HTTPS</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Instal·lació de MySQL" duration="15">
+        <p>Instalar MySQL per tenir un lloc on es desa usuaris...  organitza i proveïrà accés a la base de dades.</p>
+<p>S&#39;ha d&#39;utilitzar  la comanda <strong>apt install</strong> per poder instal·lar aquest software:</p>
+<pre><code>sudo apt install mysql-server</code></pre>
+<aside class="special"><p><strong>Nota:</strong> En aquest cas no faria falta utilitzar <code>sudo apt update</code> abans de la comanda. Ja que possiblement s&#39;ha utilitzat  quan s&#39;ha utilitzat Apache, en teoría hauria d&#39;estar actualitzat.</p>
+</aside>
+<p>Executem un arxiu de comandes de seguretat que elimina alguns paràmetres perillosos, serà la següent comanda:</p>
+<pre><code>sudo mysql_secure_installation</code></pre>
+<p>Preguntara si vols configurar el conector de validació de la contrasenya: <strong>VALIDATE PASSWORD PLUGIN.</strong></p>
+<aside class="special"><p><strong>Nota: </strong>Habilitar la funcionalitat depèn de les necessitats del servidor. En el cas que estigues habilitada una contrasenya, el MYSQL (rechazara) i genera un error. </p>
+</aside>
+<p>Respon Y si estas d&#39;acord, un altre resposta continuará sense realitzar habilitació.</p>
+<p class="image-container"><img style="width: 587.00px" src="img/764ecee9fb83753f.png"></p>
+<p>Si has respos &#34;Yes&#34; et preguntará el nivell de contrasenya que vols:</p>
+<p class="image-container"><img style="width: 587.00px" src="img/fb0833534112c3dc.png"></p>
+<p>Assenyala el nivell de la teva contrasenya i et diu si vols canviar o no:</p>
+<p class="image-container"><img style="width: 587.00px" src="img/fa4f14592472b0c9.png"></p>
+<p>Les següents preguntes pressiona N pulsa ENTER en cada suggeriment. </p>
+<p class="image-container"><img style="width: 587.00px" src="img/fad4bdacce689621.png"></p>
+<aside class="warning"><p>Si pressiona Y, eliminarà usuaris anònims i base de dades de proves, deshabilita ingresos remots del root i afegirà noves normes, per al MySQL respecte immediatament els canvis que s&#39;acaben de fer.</p>
+</aside>
+<p>Això diu si vols prohibir que el root inici sessió de remot, en aquest cas li he donat a no.</p>
+<p class="image-container"><img style="width: 587.00px" src="img/13a61bd0cdb708cc.png"></p>
+<p>Diu si vols eliminar la base de dades de prova i accedir-hi, pressiona Y per eliminar la base de dades de prova.</p>
+<p class="image-container"><img style="width: 587.00px" src="img/5910a64d1a305af6.png"></p>
+<p>Despres pressiona Y per tornar a carregar les taules de privilegis.</p>
+<p class="image-container"><img style="width: 587.00px" src="img/5022142973e32092.png"></p>
+<p>En aquest punt, el teu sistema de bases de dades es troba configurat i pots seguir amb la instal·lació de PHP, el component final de la pila LAMP</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Instal·lar PHP" duration="0">
+        <p>PHP és el component de la configuració que processa codi per desplegar contingut dinàmic. Podeu executar arxius, connectar-se a les teves bases de dades MySQL per obtenir informació, i gestionar la visualització de l&#39;contingut processat sobre el teu servidor web.</p>
+<p>El podem configurar perquè s&#39;executi sobre el servidor Apache i perquè es comuniqui amb la base de dades MySQL</p>
+<pre>sudo apt install php libapache2-mod-php php-mysql</pre>
+<aside class="special"><p><strong>NOTA:</strong> Això hauria instal·lar PHP sense problemes, però, provarem aquesta instal·lació en aquest moment.</p>
+</aside>
+<pre>/etc/apache2/mods-enabled/dir.conf</pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Instal·lar OwnCloud dins de un contenedor" duration="10">
+        <p>Utilitza aquestes comandes per instalar el OwnCloud.</p>
+<p class="image-container"><img style="width: 587.00px" src="img/83c7f9f11b43dc89.png"></p>
+<p>Despues de la instalacio de OwnCloud, tienes que instalar las dependencias PHP necesarias</p>
+<p class="image-container"><img style="width: 587.00px" src="img/cede10e5943aa1c4.png"></p>
+<p>Paquetes LAMP:<a href="https://www.digitalocean.com/community/tutorials/como-instalar-en-ubuntu-18-04-la-pila-lamp-linux-apache-mysql-y-php-es" target="_blank">https://www.digitalocean.com/community/tutorials/como-instalar-en-ubuntu-18-04-la-pila-lamp-linux-apache-mysql-y-php-es</a></p>
+<p>OwnCloud:<a href="https://maslinux.es/como-instalar-owncloud-en-ubuntu-18-04/" target="_blank">https://maslinux.es/como-instalar-owncloud-en-ubuntu-18-04/</a></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
