@@ -11,18 +11,27 @@
     .wrapper {
         height: 100%;
         display: grid;
-          
+        grid-template-areas: 
+        "a a"
+        "b c"
+        "b d"
+        ;
+        
     }
     .section1 {
+        grid-area: a;
         background-color: #F44336;
     }
     .section2 {
+        grid-area b;
         background-color: #4CAF50;
     }
     .section3 {
+        grid-area c;
         background-color: #FFEB3B;
     }
     .section4 {
+        grid-area d;
         background-color: #2196F3;
     }
 </style>
