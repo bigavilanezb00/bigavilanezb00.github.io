@@ -1,33 +1,65 @@
 <!DOCTYPE html>
+
 <style>
+    html {
+        height: 100%;
+    }
     body {
         margin: 0;
+        height: 100%;
     }
     .wrapper {
-        display: grid;     
+        height: 100%;
+        display: grid;   
+        grid-template-rows: 50px 50px auto 50px 1fr 50px;
+        grid-template-areas: 
+        "a a a a a a"
+        "b b b b b b"
+        "c c c d d d"
+        "e e e e e e"
+        "f f f g g g"
+        "h h h h h h"
+        ;  
     }
     .section1 {
+        grid-area: a;
         background-color: #F44336;
     }
     .section2 {
+        grid-area: b;
         background-color: #2196F3;
     }
     .section3 {
+        grid-area: c;
         background-color: #4CAF50;
+        justify-self:self-end;
+        width:75%;
     }
     .section4 {
+        grid-area: d;
         background-color: #FFEB3B;
+        width:75%
+    ;
     }
     .section5 {
+        grid-area: e;
         background-color: #9C27B0;
     }
     .section6 {
+        grid-area: f;
         background-color: #009688;
+        justify-self:self-end;
+        width:75%;
     }
     .section7 {
+        grid-area: g;
         background-color: #FF9800;
+        align-self: flex-start;
+        width:75%;
+
     }
     .section8 {
+        grid-area: h;
         background-color: #795548;
     }
 </style>
